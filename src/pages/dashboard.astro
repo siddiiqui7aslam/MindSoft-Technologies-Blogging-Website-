@@ -1,0 +1,64 @@
+---
+import Layout from '../layouts/Layout.astro';
+import BlogCard from '../components/BlogCard.astro';
+
+// Simulated user's published posts
+const userPosts = [
+  {
+    title: 'My First Blog Post',
+    excerpt: 'This is my journey into the world of blogging...',
+    author: 'Current User',
+    date: '2024-04-10',
+    slug: 'my-first-blog-post',
+    status: 'published'
+  },
+  {
+    title: 'Draft Post',
+    excerpt: 'Work in progress...',
+    author: 'Current User',
+    date: '2024-04-09',
+    slug: 'draft-post',
+    status: 'draft'
+  }
+];
+
+const publishedPosts = userPosts.filter(post => post.status === 'published');
+const draftPosts = userPosts.filter(post => post.status === 'draft');
+---
+
+<Layout title="Dashboard - BlogSpace">
+  <div class="max-w-6xl mx-auto">
+    <div class="flex justify-between items-center mb-8">
+      <h1 class="text-3xl font-bold text-gray-900">Your Dashboard</h1>
+      <a
+        href="/write"
+        class="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700"
+      >
+        <svg class="-ml-1 mr-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+          <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" />
+        </svg>
+        New Post
+      </a>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div>
+        <h2 class="text-xl font-semibold text-gray-900 mb-4">Published Posts ({publishedPosts.length})</h2>
+        <div class="space-y-4">
+          {publishedPosts.map(post => (
+            <BlogCard {...post} />
+          ))}
+        </div>
+      </div>
+
+      <div>
+        <h2 class="text-xl font-semibold text-gray-900 mb-4">Drafts ({draftPosts.length})</h2>
+        <div class="space-y-4">
+          {draftPosts.map(post => (
+            <BlogCard {...post} />
+          ))}
+        </div>
+      </div>
+    </div>
+  </div>
+</Layout>

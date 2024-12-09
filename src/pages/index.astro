@@ -1,0 +1,57 @@
+---
+import Layout from '../layouts/Layout.astro';
+import BlogCard from '../components/BlogCard.astro';
+
+const featuredPosts = [
+  {
+    title: 'Getting Started with Astro',
+    excerpt: 'Learn how to build fast, modern websites with Astro...',
+    author: 'John Doe',
+    date: '2024-04-10',
+    slug: 'getting-started-with-astro'
+  },
+  {
+    title: 'The Power of Markdown',
+    excerpt: 'Discover why Markdown is the perfect format for blogging...',
+    author: 'Jane Smith',
+    date: '2024-04-09',
+    slug: 'power-of-markdown'
+  },
+  {
+    title: 'Building Responsive Layouts',
+    excerpt: 'Master the art of creating beautiful responsive designs...',
+    author: 'Mike Johnson',
+    date: '2024-04-08',
+    slug: 'responsive-layouts'
+  }
+];
+---
+
+<Layout title="BlogSpace - Share Your Stories">
+  <section class="text-center mb-12">
+    <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+      Welcome to BlogSpace
+    </h1>
+    <p class="text-xl text-gray-600 max-w-2xl mx-auto">
+      Share your stories, ideas, and expertise with the world. Join our community of writers and readers.
+    </p>
+  </section>
+
+  <section class="mb-12">
+    <h2 class="text-2xl font-bold text-gray-800 mb-6">Featured Posts</h2>
+    <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+      {featuredPosts.map(post => (
+        <BlogCard {...post} />
+      ))}
+    </div>
+  </section>
+
+  <section class="text-center">
+    <a
+      href="/write"
+      class="inline-block bg-indigo-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-indigo-700 transition-colors"
+    >
+      Start Writing
+    </a>
+  </section>
+</Layout>

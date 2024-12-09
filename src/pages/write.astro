@@ -1,0 +1,100 @@
+--- 
+import Layout from '../layouts/Layout.astro'; 
+import ImageUpload from '../components/ImageUpload.astro'; 
+--- 
+
+<Layout title="Write a Blog Post - BlogSpace">
+  <div class="max-w-3xl mx-auto p-4 sm:p-8">
+    <h1 class="text-3xl font-bold text-gray-900 mb-8">Write a New Post</h1>
+
+    <form class="space-y-6" id="post-form">
+      <!-- Title Input -->
+      <div>
+        <label for="title" class="block text-sm font-medium text-gray-700">Title</label>
+        <input
+          type="text"
+          id="title"
+          name="title"
+          class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+          required
+        />
+      </div>
+
+      <!-- Image Upload Component -->
+      <div class="w-full">
+        <ImageUpload />
+      </div>
+
+      <!-- Content Input -->
+      <div>
+        <label for="content" class="block text-sm font-medium text-gray-700">Content</label>
+        <textarea
+          id="content"
+          name="content"
+          rows="12"
+          class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+          required
+        ></textarea>
+      </div>
+
+      <!-- Tags Input -->
+      <div>
+        <label for="tags" class="block text-sm font-medium text-gray-700">Tags (comma-separated)</label>
+        <input
+          type="text"
+          id="tags"
+          name="tags"
+          class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+          placeholder="technology, programming, web development"
+        />
+      </div>
+
+      <!-- Buttons -->
+      <div class="flex justify-end space-x-4">
+        <button
+          type="button"
+          class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50"
+          id="save-draft"
+        >
+          Save Draft
+        </button>
+        <button
+          type="submit"
+          class="px-4 py-2 text-sm font-medium text-white bg-indigo-600 rounded-md hover:bg-indigo-700"
+        >
+          Publish
+        </button>
+      </div>
+    </form>
+  </div>
+</Layout>
+<script>
+  const form = document.getElementById('post-form');
+  const saveDraftBtn = document.getElementById('save-draft');
+
+  form?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const formData = new FormData(e.target as HTMLFormElement); // Fixed typing here
+    await submitPost(formData, 'publish');
+  });
+
+  saveDraftBtn?.addEventListener('click', async () => {
+    const formData = new FormData(form as HTMLFormElement); // Fixed typing here
+    await submitPost(formData, 'draft');
+  });
+
+  async function submitPost(formData, status) {
+    try {
+      const response = await fetch('/api/posts', {
+        method: 'POST',
+        body: formData,
+      });
+
+      if (response.ok) {
+        window.location.href = status === 'publish' ? '/dashboard' : '/drafts';
+      }
+    } catch (error) {
+      console.error('Error submitting post:', error);
+    }
+  }
+</script>

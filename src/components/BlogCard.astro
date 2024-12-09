@@ -1,0 +1,32 @@
+---
+interface Props {
+  title: string;
+  excerpt: string;
+  author: string;
+  date: string;
+  slug: string;
+  image?: string;
+}
+
+const { title, excerpt, author, date, slug, image } = Astro.props;
+---
+
+<article class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
+  {image && (
+    <div class="aspect-w-16 aspect-h-9">
+      <img src={image} alt={title} class="w-full h-48 object-cover" />
+    </div>
+  )}
+  <div class="p-6">
+    <h2 class="text-2xl font-bold mb-2 text-gray-800">
+      <a href={`/blog/${slug}`} class="hover:text-indigo-600 transition-colors">
+        {title}
+      </a>
+    </h2>
+    <p class="text-gray-600 mb-4">{excerpt}</p>
+    <div class="flex items-center justify-between text-sm text-gray-500">
+      <span>{author}</span>
+      <time datetime={date}>{new Date(date).toLocaleDateString()}</time>
+    </div>
+  </div>
+</article>
